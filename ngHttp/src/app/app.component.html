@@ -1,0 +1,31 @@
+<div class="row">
+  <div class="col-lg-12">
+    <form #postData="ngForm" (ngSubmit)="onSubmit(postData)" class="form-data">
+      <div class="form-group">
+        <label for="title" class="title">Enter title</label>
+        <input type="text" id="title" class="form-control" ngModel name="title" #title>
+      </div>
+      <div class="form-group">
+        <label for="desc" class="desc">Enter Description</label>
+        <textarea type="text" cols="5" rows="5" id="desc" class="form-control" ngModel name="desc" #desc></textarea>
+      </div>
+      <div class="button-wrapper">
+        <button class="btn" type="submit">Post Data</button>
+        <button class="btn" type="button" (click) = "onFetch()">Fetch Data</button>
+        <button class="btn" type="button">Clear</button>
+      </div>
+    </form>
+  </div>
+  <div class="alert alert-danger" *ngIf="isErr">{{errTxt}}</div>
+
+  <ul class="list-group-item">
+    <li class="list-item" *ngFor = "let comment of comments">
+      <h3>{{comment.title}}</h3>
+      <p>{{comment.desc}}</p>
+      <div class="btn btn-wrapper">
+        <button class="btn btn-danger" (click)="deleteItem(comment.id)">Delete</button>
+      </div>
+    </li>
+  </ul>
+</div>
+<router-outlet></router-outlet>
