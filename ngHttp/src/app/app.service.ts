@@ -1,26 +1,36 @@
 import { ComponentFactoryResolver, Injectable, ViewContainerRef } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { appModel } from './app.model';
-import { Subject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { AlertComponent } from './dynamic-components/alert/alert.component';
 
 @Injectable({
     providedIn:'root',
 })
 export class AppService{
-    commentSubj = new Subject<appModel[]>();
+    isLoading= new BehaviorSubject<boolean>(false);
+    commentSubj = new Subject<appModel>();
     constructor(
         private _http: HttpClient,
         private componentFactoryResolver: ComponentFactoryResolver
     ){}
     postArray:appModel[]=[];
     onPostData = (data: appModel)=>{
-        this.postArray.push(data);
-        this.commentSubj.next([...this.postArray]);
+        //this.postArray.push(data);
+        //console.log(this.postArray)
+        this.commentSubj.next(data);
         return this._http.post('https://ngproject-f241d.firebaseio.com/posts.json', data);
     }
     onFetchData = ()=>{
-        return this._http.get('https://ngproject-f241d.firebaseio.com/posts.json');
+        let searchParams = new HttpParams();
+        searchParams = searchParams.append('print', 'pretty');
+        searchParams = searchParams.append('custom', 'key')
+        return this._http.get('https://ngproject-f241d.firebaseio.com/posts.json',
+            {
+                headers: new HttpHeaders({'Custom-Header': 'Hello'}),
+                params: searchParams
+            }
+        );
     }
 
     onDeleteItem=(index:string)=>{
@@ -35,5 +45,5 @@ export class AppService{
         const alertComponent = viewContaierRef.createComponent(alertComponentFactory);
         alertComponent.instance.isErr=isAlert;
         alertComponent.instance.statusMsg=alertMsg;
-      }
+    }
 }

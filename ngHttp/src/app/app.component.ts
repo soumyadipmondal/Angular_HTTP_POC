@@ -11,6 +11,7 @@ import { SpinnerComponent } from './dynamic-components/spinner/spinner.component
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { MyDirective } from './mydirective.directive';
 import { AlertComponent } from './dynamic-components/alert/alert.component';
+import { HttpInterceptorServices } from './Http_Interceptors/http_inerceptor.services';
 
 @Component({
   selector: 'app-root',
@@ -32,36 +33,39 @@ export class AppComponent implements OnInit, OnDestroy {
   //Dynamic Component
   @ViewChild(MyDirective) appDir : MyDirective;
 
-  constructor(private _serv: AppService, 
+  constructor(
+    private _serv: AppService, 
     private router:Router, 
     private actRoute: ActivatedRoute,
     private injector: Injector,
     private domSanitizer: DomSanitizer,
     private componentFactoryResolver: ComponentFactoryResolver){
 
-      const spinnerEl$ = createCustomElement(SpinnerComponent, {injector});
+      /* const spinnerEl$ = createCustomElement(SpinnerComponent, {injector});
       customElements.define('app-spinner', spinnerEl$);
-      this.spinner = domSanitizer.bypassSecurityTrustHtml('<app-spinner message="Wait..."></app-spinner>')
+      this.spinner = domSanitizer.bypassSecurityTrustHtml('<app-spinner message="Wait..."></app-spinner>');
+      console.log(this.spinner) */
   }
 
   ngOnInit(){
+    //this.spinner=this._intercept.spinner;
     this._serv.commentSubj.subscribe(
-      (latestData:appModel[]) =>{
-        latestData.map((item:appModel)=>{
-          this.comments.push(item);
-        })
+      (latestData:appModel) =>{
+        this.comments.push(latestData);
       }
     )
+    this.onFetch();
+    this.onFetch();
     this.onFetch();
   }
   onSubmit(postData: NgForm){
     let commentInstance: appModel = postData.value;
-    this.isLoading = true; 
+    //this.isLoading = true; 
     this.methodSubs = this._serv.onPostData(commentInstance)
         .subscribe(
           resposeData=>{
           if(resposeData){
-            this.isLoading = false;
+            //this.isLoading = false;
             this.statusMsg = "You commment has been successfully Submitted."
             this._serv.alertComponent(this.appDir._vcr, 's', this.statusMsg);
           }
@@ -74,17 +78,17 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   onFetch(){
-    this.isLoading = true; 
+    //this.isLoading = true; 
     this.sendVal = this._serv.onFetchData();
     this.processData(this.sendVal)
   }
 
   deleteItem(index:string){
-    this.isLoading = true; 
+    //this.isLoading = true; 
     this.methodSubs=this._serv.onDeleteItem(index)
                         .subscribe(res=>{
                           console.log(res);
-                          this.isLoading = false; 
+                          //this.isLoading = false; 
                           this.comments = this.comments.filter(item =>{
                             return item.id !== index
                           });
@@ -105,7 +109,7 @@ export class AppComponent implements OnInit, OnDestroy {
             temp.push({...data[key], id:key});
           }
         }
-        this.isLoading = false; 
+        //this.isLoading = false; 
         return temp;
       })
     )

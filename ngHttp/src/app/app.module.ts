@@ -5,10 +5,11 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FormsModule } from '@angular/forms';
 import { AppService } from './app.service';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { SpinnerComponent } from './dynamic-components/spinner/spinner.component';
 import { AlertComponent } from './dynamic-components/alert/alert.component';
 import { MyDirective } from './mydirective.directive';
+import { HttpInterceptorServices } from './Http_Interceptors/http_inerceptor.services';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,13 @@ import { MyDirective } from './mydirective.directive';
     FormsModule,
     HttpClientModule
   ],
-  providers: [AppService],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS, 
+      useClass: HttpInterceptorServices, 
+      multi: true
+    },
+  ],
   bootstrap: [AppComponent],
   entryComponents:[SpinnerComponent, AlertComponent]
 })

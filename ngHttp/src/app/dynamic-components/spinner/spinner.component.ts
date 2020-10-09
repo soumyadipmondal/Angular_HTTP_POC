@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { AppService } from 'src/app/app.service';
 
 @Component({
   selector: 'app-spinner',
@@ -7,9 +8,17 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class SpinnerComponent implements OnInit {
   @Input() message: string
-  constructor() { }
+  loading:boolean;
+  constructor(
+    private appLoaderServ: AppService
+  ) { }
 
   ngOnInit(): void {
+    this.appLoaderServ.isLoading
+        .subscribe((loadVal:boolean)=>{
+            console.log(loadVal)
+            this.loading = loadVal;
+        })
   }
 
 }

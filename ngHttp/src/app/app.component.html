@@ -1,9 +1,9 @@
-<ng-template alertContent></ng-template>
-<div class="row">
+<div class="container row">
   <div class="col-lg-7">
     <form #postData="ngForm" (ngSubmit)="onSubmit(postData)" class="form-data">
+      <app-spinner></app-spinner>
       <div *ngIf="isLoading" [innerHTML] = "spinner"></div>
-      
+      <ng-template alertContent></ng-template>
       <!-- <div class="alert" [ngClass]="isErr ? 'alert-danger' : 'alert-success'" *ngIf="isErr || statusMsg.length>0">{{isErr ? errTxt : statusMsg}}</div> -->
       <div class="form-group">
         <label for="title" class="title">Enter title</label>
@@ -20,15 +20,16 @@
       </div>
     </form>
   </div>
-
-  <ul class="list-group-item">
-    <li class="list-item" *ngFor = "let comment of comments">
-      <h3>{{comment.title}}</h3>
-      <p>{{comment.desc}}</p>
-      <div class="btn btn-wrapper">
-        <button class="btn btn-danger" (click)="deleteItem(comment.id)">Delete</button>
-      </div>
-    </li>
-  </ul>
+  <div class="col-lg-5">
+    <ul class="list-group-item">
+      <li class="list-item" *ngFor = "let comment of comments">
+        <h3>{{comment.title}}</h3>
+        <p>{{comment.desc}}</p>
+        <div class="btn btn-wrapper">
+          <button class="btn btn-danger" (click)="deleteItem(comment.id)">Delete</button>
+        </div>
+      </li>
+    </ul>
+  </div>
 </div>
 <router-outlet></router-outlet>
