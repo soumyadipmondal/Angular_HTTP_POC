@@ -6,10 +6,16 @@ import { AppComponent } from './app.component';
 import { FormsModule } from '@angular/forms';
 import { AppService } from './app.service';
 import { HttpClientModule } from '@angular/common/http';
+import { SpinnerComponent } from './dynamic-components/spinner/spinner.component';
+import { AlertComponent } from './dynamic-components/alert/alert.component';
+import { MyDirective } from './mydirective.directive';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    MyDirective,
+    SpinnerComponent,
+    AlertComponent
   ],
   imports: [
     BrowserModule,
@@ -18,6 +24,7 @@ import { HttpClientModule } from '@angular/common/http';
     HttpClientModule
   ],
   providers: [AppService],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents:[SpinnerComponent, AlertComponent]
 })
 export class AppModule { }
