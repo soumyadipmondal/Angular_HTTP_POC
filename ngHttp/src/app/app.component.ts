@@ -111,7 +111,6 @@ export class AppComponent implements OnInit, OnDestroy {
     )
   .subscribe((fetch_Data: appModel[])=>{
     this.comments = fetch_Data;
-    console.log(this.comments)
   },
   error=>{
     console.log(error)
