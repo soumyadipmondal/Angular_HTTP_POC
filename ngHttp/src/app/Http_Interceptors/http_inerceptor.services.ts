@@ -12,11 +12,8 @@ import { SpinnerComponent } from '../dynamic-components/spinner/spinner.componen
 
 export class HttpInterceptorServices implements HttpInterceptor{
     private request:HttpRequest<any>[]=[];
-    spinner: SafeHtml;
 
     constructor(
-      private injector: Injector,
-      private domSanitizer: DomSanitizer,
       private appLoaderServ: AppService
     ){
         /* const spinnerEl$ = createCustomElement(SpinnerComponent, {injector});
